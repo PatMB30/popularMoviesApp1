@@ -1,7 +1,11 @@
 <resources>
-    <string name="app_name">moviesApp</string>
+    <string name="app_name">Popular Movies Stage 1</string>
 
     <string name="error_message">
-        An error has occurred. Please try again by clicking REFRESH
+        An error has occurred. Please try again by clicking Popularity or Ratings
     </string>
+
+    <string name="by_popularity">Popularity</string>
+    <string name="by_rating">Ratings</string>
+    <string name="detail_error_message">The selected Movie could not be loaded</string>
 </resources>

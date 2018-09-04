@@ -15,7 +15,11 @@
  */
 package com.example.android.moviesapp.utils;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
+
+import com.example.android.moviesapp.Movie;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,18 +29,12 @@ import java.net.HttpURLConnection;
 
 public final class OpenMovieJsonUtils
 {
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     public static String[] getSimpleMovieStringsFromJson(Context context, String movieJsonStr)
             throws JSONException
     {
-
-        //original title
-        //movie poster image thumbnail
-        //A plot synopsis (called overview in the api)
-        //user rating (called vote_average in the api)
-        //release date
-
-        /* Weather information. Each day's forecast info is an element of the "list" array */
-        final String OWM_LIST = "list";
+        /* String designating movie results from movieDB */
+        final String MOV_RESULTS = "results";
 
         //Movie Title
         final String MOV_TITLE = "title";
@@ -51,12 +49,10 @@ public final class OpenMovieJsonUtils
 
         final String OWM_MESSAGE_CODE = "cod";
 
-        /* String array to hold each day's weather String */
         String[] parsedMovieData = null;
 
         JSONObject movieJson = new JSONObject(movieJsonStr);
 
-        /* Is there an error? */
         if (movieJson.has(OWM_MESSAGE_CODE))
         {
             int errorCode = movieJson.getInt(OWM_MESSAGE_CODE);
@@ -72,58 +68,33 @@ public final class OpenMovieJsonUtils
             }
         }
 
-        JSONArray movieArray = movieJson.getJSONArray(OWM_LIST);
+        JSONArray movieArray = movieJson.getJSONArray(MOV_RESULTS);
 
         parsedMovieData = new String[movieArray.length()];
 
-        //long localDate = System.currentTimeMillis();
-        //long utcDate = SunshineDateUtils.getUTCDateFromLocal(localDate);
-        //long startDay = SunshineDateUtils.normalizeDate(utcDate);
-
         for (int i = 0; i < movieArray.length(); i++)
         {
-            String date;
-            String highAndLow;
+            /* Get the JSON object representing one movie */
+            JSONObject movieObject = movieArray.getJSONObject(i);
 
-            /* These are the values that will be collected */
-            long dateTimeMillis;
-            double high;
-            double low;
-            String description;
+            //declare the variables we want to use to parse our movie object
+            String movieTitle;
+            String movieThumbnail;
+            String movieOverview;
+            String movieAverage;
+            String movieRelease;
 
-            /* Get the JSON object representing the day */
-            JSONObject dayForecast = weatherArray.getJSONObject(i);
+            movieTitle = movieObject.getString(MOV_TITLE);
+            movieThumbnail = movieObject.getString(MOV_THUMB);
+            movieOverview = movieObject.getString(MOV_PLOT);
+            movieAverage = movieObject.getString(MOV_RAT);
+            movieRelease = movieObject.getString(MOV_DATE);
 
-            /*
-             * We ignore all the datetime values embedded in the JSON and assume that
-             * the values are returned in-order by day (which is not guaranteed to be correct).
-             */
-            dateTimeMillis = startDay + SunshineDateUtils.DAY_IN_MILLIS * i;
-            date = SunshineDateUtils.getFriendlyDateString(context, dateTimeMillis, false);
-
-            /*
-             * Description is in a child array called "weather", which is 1 element long.
-             * That element also contains a weather code.
-             */
-            JSONObject weatherObject =
-                    dayForecast.getJSONArray(OWM_WEATHER).getJSONObject(0);
-            description = weatherObject.getString(OWM_DESCRIPTION);
-
-            /*
-             * Temperatures are sent by Open Weather Map in a child object called "temp".
-             *
-             * Editor's Note: Try not to name variables "temp" when working with temperature.
-             * It confuses everybody. Temp could easily mean any number of things, including
-             * temperature, temporary and is just a bad variable name.
-             */
-            JSONObject temperatureObject = dayForecast.getJSONObject(OWM_TEMPERATURE);
-            high = temperatureObject.getDouble(OWM_MAX);
-            low = temperatureObject.getDouble(OWM_MIN);
-            highAndLow = SunshineWeatherUtils.formatHighLows(context, high, low);
-
-            parsedWeatherData[i] = date + " - " + description + " - " + highAndLow;
+            parsedMovieData[i] = "MOV_TITLE" + movieTitle + "MOV_THUMBNAIL" + movieThumbnail +
+                    "MOV_OVERVIEW" + movieOverview + "MOV_AVERAGE" + movieAverage +
+                    "MOV_RELEASE" + movieRelease;
         }
 
-        return parsedWeatherData;
+        return parsedMovieData;
     }
 }

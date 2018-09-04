@@ -30,32 +30,59 @@ public final class NetworkUtils
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
     private static final String STATIC_MOVIE_URL =
-            "https://api.themoviedb.org/3/movie/550";
+            "https://api.themoviedb.org/3/movie/";
 
-    private static final String MOVIES_BASE_URL = STATIC_MOVIE_URL;
+    final static String API_KEY_PARAM = "api_key";
+
+    final static String POPULARITY = "popular";
+
+    final static String RATING = "top_rated";
+
+    private static final String BASE_URL_POPULAR = STATIC_MOVIE_URL + POPULARITY;
+
+    private static final String BASE_URL_RATING = STATIC_MOVIE_URL + RATING;
 
     /* The format we want our API to return */
     private static final String format = "json";
 
-    final static String API_KEY_PARAM = "api_key";
-
-    public static URL buildUrl(String key)
+    public static URL buildUrl(String key, String filter)
     {
-        Uri builtUri = Uri.parse(MOVIES_BASE_URL).buildUpon()
-                .appendQueryParameter(API_KEY_PARAM, key)
-                .build();
-
         URL url = null;
-        try
-        {
-            url = new URL(builtUri.toString());
-        }
-        catch (MalformedURLException e)
-        {
-            e.printStackTrace();
-        }
 
-        Log.v(TAG, "Built URI " + url);
+        if(filter == "popular")
+        {
+            Uri builtUri = Uri.parse(BASE_URL_POPULAR).buildUpon()
+                    .appendQueryParameter(API_KEY_PARAM, key)
+                    .build();
+
+            try
+            {
+                url = new URL(builtUri.toString());
+            }
+            catch (MalformedURLException e)
+            {
+                e.printStackTrace();
+            }
+
+            Log.v(TAG, "Built URI " + url);
+        }
+        else if(filter == "top_rated")
+        {
+            Uri builtUri = Uri.parse(BASE_URL_RATING).buildUpon()
+                    .appendQueryParameter(API_KEY_PARAM, key)
+                    .build();
+
+            try
+            {
+                url = new URL(builtUri.toString());
+            }
+            catch (MalformedURLException e)
+            {
+                e.printStackTrace();
+            }
+
+            Log.v(TAG, "Built URI " + url);
+        }
 
         return url;
     }

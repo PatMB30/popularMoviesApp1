@@ -2,61 +2,76 @@ package com.example.android.moviesapp;
 
 public class Movie
 {
-    private String mainName;
-    //private List<String> alsoKnownAs = null;
-    //private String placeOfOrigin;
-    //private String description;
-    private String image;
-    private int imageID;
-    //private List<String> ingredients = null;
+    private String movieTitle;
+    private String movieThumbnail;
+    private String movieOverview;
+    private String movieAverage;
+    private String movieRelease;
+    //private int imageID;
 
-    /**
-     * No args constructor for use in serialization
-     */
     public Movie()
     {
 
     }
 
-    public Movie(String mainName, String image, int imgID)
+    public Movie(String title, String thumbnail, String overview,
+                 String average, String release)
     {
-        this.mainName = mainName;
-        //this.alsoKnownAs = alsoKnownAs;
-        //this.placeOfOrigin = placeOfOrigin;
-        //this.description = description;
-        this.image = image;
-        this.imageID = imgID;
-        //this.ingredients = ingredients;
+        this.movieTitle = title;
+        this.movieThumbnail = thumbnail;
+        this.movieOverview = overview;
+        this.movieAverage = average;
+        this.movieRelease = release;
     }
 
-    public String getMainName()
+    public String getMovieTitle()
     {
-        return mainName;
+        return movieTitle;
     }
 
-    public void setMainName(String mainName)
+    public void setMovieTitle(String name)
     {
-        this.mainName = mainName;
+        this.movieTitle = name;
     }
 
-    public String getImage()
+    public String getMovieThumbnail()
     {
-        return image;
+        return movieThumbnail;
     }
 
-    public void setImage(String image)
+    public void setMovieThumbnail(String thumbnail)
     {
-        this.image = image;
+        this.movieThumbnail = thumbnail;
     }
 
-    public int getImageID()
+    public String getMovieOverview()
     {
-        return imageID;
+        return movieOverview;
     }
 
-    public void setImageID(int imgID)
+    public void setMovieOverview(String overview)
     {
-        this.imageID = imgID;
+        this.movieOverview = overview;
+    }
+
+    public String getMovieAverage()
+    {
+        return movieAverage;
+    }
+
+    public void setMovieAverage(String average)
+    {
+        this.movieAverage = average;
+    }
+
+    public String getMovieRelease()
+    {
+        return movieRelease;
+    }
+
+    public void setMovieRelease(String release)
+    {
+        this.movieRelease = release;
     }
 
 }
