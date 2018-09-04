@@ -21,7 +21,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
     private List<Movie> movies;
 
     //onClick handler for Movie adapter
-    //private final MovieAdapterOnClickHandler clickHandler;
+    private final MovieAdapterOnClickHandler clickHandler;
 
     //URL connection variables for retrieving thumbnail images
     private String BASE_URL = "http://image.tmdb.org/t/p/";
@@ -34,12 +34,17 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
 
     public MovieAdapter()
     {
-
+        clickHandler = null;
     }
 
     public interface MovieAdapterOnClickHandler
     {
-        void onClick(String selectedMovie);
+        void onClick(Movie selectedMovie);
+    }
+
+    public MovieAdapter(MovieAdapterOnClickHandler cHandler)
+    {
+        clickHandler = cHandler;
     }
 
     public MovieAdapter(Context c, Movie[] listOfMovies, MovieAdapterOnClickHandler cHandler)
@@ -54,7 +59,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
                 movies.add(listOfMovies[i]);
         }
 
-        //clickHandler = cHandler;
+        clickHandler = cHandler;
     }
 
     public class MovieAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
@@ -75,8 +80,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
         public void onClick(View v)
         {
             int adapterPosition = getAdapterPosition();
-            String selectedMovieTitle = movies.get(adapterPosition).getMovieTitle();
-            //clickHandler.onClick(selectedMovieTitle);
+            clickHandler.onClick(movies.get(adapterPosition));
         }
     }
 

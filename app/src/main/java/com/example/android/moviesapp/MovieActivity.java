@@ -26,6 +26,15 @@ public class MovieActivity extends AppCompatActivity
 
     private ImageView movieThumbnailImageView;
 
+    //URL connection variables for retrieving thumbnail images
+    private String BASE_URL = "http://image.tmdb.org/t/p/";
+
+    //determining the size of the images retrieved
+    private String IMAGE_SIZE = "w185";
+
+    //poster_path from JSON movie object response
+    private String THUMBNAIL = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -44,15 +53,22 @@ public class MovieActivity extends AppCompatActivity
             closeOnError();
         }
 
-        int position = intent.getIntExtra(EXTRA_POSITION, DEFAULT_POSITION);
-        if (position == DEFAULT_POSITION)
+        Bundle bundle = getIntent().getExtras();
+        Movie selectedMovie = bundle.getParcelable("selected_movie");
+
+        if (selectedMovie == null)
         {
-            // EXTRA_POSITION not found in intent
+            // Movie data unavailable
             closeOnError();
             return;
         }
 
+        populateUI(selectedMovie);
+        Picasso.with(this)
+                .load(BASE_URL + IMAGE_SIZE + selectedMovie.getMovieThumbnail())
+                .into(movieThumbnailImageView);
 
+        setTitle(selectedMovie.getMovieTitle());
     }
 
     private void closeOnError()
@@ -61,4 +77,27 @@ public class MovieActivity extends AppCompatActivity
         Toast.makeText(this, R.string.detail_error_message,
                 Toast.LENGTH_SHORT).show();
     }
+
+    private void populateUI(Movie m)
+    {
+        //we will use a StringBuilder to format our variables differently, then reset it
+        StringBuilder sb = new StringBuilder();
+
+        //Movie Title
+        String m_movieTitle = m.getMovieTitle();
+        movieTitleTextView.setText(m_movieTitle);
+
+        //Movie Release
+        String m_movieRelease = "Release Date: " + m.getMovieRelease();
+        movieReleaseTextView.setText(m_movieRelease);
+
+        //Movie Average
+        String m_movieAverage = "Average Rating: " + m.getMovieAverage();
+        movieAverageTextView.setText(m_movieAverage);
+
+        //Movie Overview/Plot
+        String m_moviePlot = m.getMovieOverview();
+        moviePlotTextView.setText(m_moviePlot);
+    }
+
 }

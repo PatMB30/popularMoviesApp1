@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements
         mainProgressBar = (ProgressBar) findViewById(R.id.main_progressBar);
 
         loadMovieData();
+
     }
 
     private void loadMovieData()
@@ -102,17 +103,13 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onClick(String selectedMovie)
-    {
-        Context context = this;
-        //launchDetailActivity(position);
-    }
-
-    private void launchDetailActivity(int position)
+    public void onClick(Movie selectedMovie)
     {
         Intent intent = new Intent(this, MovieActivity.class);
-        intent.putExtra(MovieActivity.EXTRA_POSITION, position);
-        startActivity(intent);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("selected_movie", selectedMovie);
+        intent.putExtras(bundle);
+        this.startActivity(intent);
     }
 
     private void showMovieDataView()
