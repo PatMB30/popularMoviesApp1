@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -55,8 +54,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
 
         if (listOfMovies != null)
         {
-            for (int i = 0; i < listOfMovies.length; i++)
-                movies.add(listOfMovies[i]);
+            for (Movie m : listOfMovies)
+                movies.add(m);
         }
 
         clickHandler = cHandler;
@@ -125,9 +124,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
 
         if(movieData != null)
         {
-            for (int i = 0; i < movieData.length; i++)
+            for (Movie m : movieData)
             {
-                movies.add(movieData[i]);
+                movies.add(m);
             }
         }
 

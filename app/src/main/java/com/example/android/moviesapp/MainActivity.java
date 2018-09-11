@@ -1,25 +1,18 @@
 package com.example.android.moviesapp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.example.android.moviesapp.data.MoviePreferences;
@@ -77,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements
         //create textview for optional error message handling
         mainErrorMessage = (TextView) findViewById(R.id.main_errorMessage);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, numberOfColumns());
 
         mainRecyclerView.setLayoutManager(gridLayoutManager);
 
@@ -92,6 +85,18 @@ public class MainActivity extends AppCompatActivity implements
 
         loadMovieData();
 
+    }
+
+    private int numberOfColumns()
+    {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        // You can change this divider to adjust the size of the poster
+        int widthDivider = 400;
+        int width = displayMetrics.widthPixels;
+        int nColumns = width / widthDivider;
+        if (nColumns < 2) return 2;
+        return nColumns;
     }
 
     private void loadMovieData()

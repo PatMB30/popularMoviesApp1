@@ -1,48 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#353535"
-    tools:context="com.example.android.moviesapp.MovieActivity">
+    android:layout_height="match_parent">
 
-    <ImageView android:id="@+id/detailsMovieThumbnail"
-        android:layout_width="fill_parent"
-        android:layout_height="300dp"
-        android:background="#353535"/>
-
-    <TextView android:id="@+id/detailsMovieName"
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:textSize="20dp"
-        android:textColor="#ffffff"
-        android:background="#353535"/>
+        android:background="#353535"
+        tools:context="com.example.android.moviesapp.MovieActivity">
 
-    <TextView android:id="@+id/detailsMovieRelease"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="14dp"
-        android:textColor="#ffffff"
-        android:background="#353535"/>
+        <ImageView android:id="@+id/detailsMovieThumbnail"
+            android:layout_width="fill_parent"
+            android:layout_height="300dp"
+            android:background="#353535"
+            android:contentDescription="@string/movie_thumbnail"/>
 
-    <TextView android:id="@+id/detailsMovieAverage"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="14dp"
-        android:textColor="#ffffff"
-        android:background="#353535"/>
+        <TextView android:id="@+id/detailsMovieName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#ffffff"
+            android:background="#353535"/>
 
-    <TextView android:id="@+id/detailsMoviePlot"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="14dp"
-        android:textColor="#ffffff"
-        android:background="#353535"/>
+        <TextView android:id="@+id/detailsMovieRelease"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textColor="#ffffff"
+            android:background="#353535"/>
 
-</LinearLayout>
+        <TextView android:id="@+id/detailsMovieAverage"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textColor="#ffffff"
+            android:background="#353535"/>
+
+        <TextView android:id="@+id/detailsMoviePlot"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textColor="#ffffff"
+            android:background="#353535"/>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

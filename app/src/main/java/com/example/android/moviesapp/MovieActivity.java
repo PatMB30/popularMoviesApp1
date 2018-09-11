@@ -9,8 +9,6 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 public class MovieActivity extends AppCompatActivity
