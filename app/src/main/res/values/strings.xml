@@ -6,7 +6,16 @@
     </string>
 
     <string name="movie_thumbnail">The official movie\'s poster</string>
+    <string name="movie_review">One of the movie\'s reviews</string>
+    <string name="movie_trailer">One of the movie\'s trailers</string>
     <string name="by_popularity">Popularity</string>
     <string name="by_rating">Ratings</string>
+    <string name="by_favorites">Favorites</string>
+    <string name="by_reviews">Reviews</string>
+    <string name="by_trailers">Trailers</string>
     <string name="detail_error_message">The selected Movie could not be loaded</string>
+    <string name="favorites_removed">This movie has been removed from your favorites.</string>
+    <string name="favorites_added">This movie has been added to your favorites.</string>
+    <string name="no_reviews_found">No reviews were found for this movie.</string>
+    <string name="no_trailers_found">No trailers were found for this movie.</string>
 </resources>

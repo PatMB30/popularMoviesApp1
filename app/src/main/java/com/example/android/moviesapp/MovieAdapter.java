@@ -5,90 +5,67 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
+import com.example.android.moviesapp.data.MovieReview;
 import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapterViewHolder>
 {
     //variables for Movie title and other information
     private Context movieAdapterContext;
-    private List<Movie> movies;
+    private List<MovieReview> reviews;
 
-    //onClick handler for Movie adapter
-    private final MovieAdapterOnClickHandler clickHandler;
-
-    //URL connection variables for retrieving thumbnail images
-    private String BASE_URL = "http://image.tmdb.org/t/p/";
-
-    //determining the size of the images retrieved
-    private String IMAGE_SIZE = "w185";
-
-    //poster_path from JSON movie object response
-    private String THUMBNAIL = "";
-
-    public MovieAdapter()
+    public MovieAdapter(Context context, List<MovieReview> reviews)
     {
-        clickHandler = null;
-    }
+        movieAdapterContext = context;
+        this.reviews = reviews;
 
-    public interface MovieAdapterOnClickHandler
-    {
-        void onClick(Movie selectedMovie);
-    }
-
-    public MovieAdapter(MovieAdapterOnClickHandler cHandler)
-    {
-        clickHandler = cHandler;
-    }
-
-    public MovieAdapter(Context c, Movie[] listOfMovies, MovieAdapterOnClickHandler cHandler)
-    {
-        movieAdapterContext = c;
-
-        movies = new ArrayList<Movie>();
-
-        if (listOfMovies != null)
+        if (reviews != null)
         {
-            for (Movie m : listOfMovies)
-                movies.add(m);
+            for (MovieReview mr : reviews)
+                reviews.add(mr);
         }
-
-        clickHandler = cHandler;
     }
 
-    public class MovieAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    public void setMovieReviews(List<MovieReview> movieReviews)
     {
-        public final TextView movieTitle;
-        public final ImageView movieThumbnail;
+        this.reviews = movieReviews;
+        notifyDataSetChanged();
+    }
+
+    public class MovieAdapterViewHolder extends RecyclerView.ViewHolder
+    {
+        //public final TextView movieTitle;
+        public final TextView movieReviewAuthor;
+        public final TextView movieReviewContent;
+        public final TextView movieReviewSite;
 
         public MovieAdapterViewHolder(View view)
         {
             super(view);
-            movieTitle = (TextView) view.findViewById(R.id.textViewMovieName);
-            movieThumbnail = (ImageView) view.findViewById(R.id.textViewMovieThumbnailIcon);
-
-            view.setOnClickListener(this);
+            movieReviewAuthor = (TextView) view.findViewById(R.id.movie_review_author);
+            movieReviewContent = (TextView) view.findViewById(R.id.movie_review_content);
+            movieReviewSite = (TextView) view.findViewById(R.id.movie_review_site);
         }
 
-        @Override
-        public void onClick(View v)
+        void bind(int position)
         {
-            int adapterPosition = getAdapterPosition();
-            clickHandler.onClick(movies.get(adapterPosition));
+            if(reviews != null)
+            {
+                MovieReview mr = reviews.get(position);
+                movieReviewAuthor.setText(mr.getReviewAuthor());
+                movieReviewContent.setText(mr.getReviewContent());
+                movieReviewSite.setText(mr.getReviewURL());
+            }
         }
     }
 
     @Override
     public MovieAdapterViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType)
     {
-        Context context = viewGroup.getContext();
-        int layoutIdForListItem = R.layout.movie_main;
-        LayoutInflater inflater = LayoutInflater.from(context);
+        movieAdapterContext = viewGroup.getContext();
+        int layoutIdForListItem = R.layout.movie_reviews;
+        LayoutInflater inflater = LayoutInflater.from(movieAdapterContext);
         boolean shouldAttachToParentImmediately = false;
 
         View view = inflater.inflate(layoutIdForListItem, viewGroup,
@@ -99,37 +76,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
     @Override
     public void onBindViewHolder(MovieAdapterViewHolder movieViewHolder, int position)
     {
-        String selectedMovieName = movies.get(position).getMovieTitle();
-        movieViewHolder.movieTitle.setText(selectedMovieName);
-
-        Picasso.with(movieAdapterContext)
-                .load(BASE_URL + IMAGE_SIZE + movies.get(position).getMovieThumbnail())
-                .into(movieViewHolder.movieThumbnail);
+        movieViewHolder.bind(position);
     }
 
     @Override
-    public int getItemCount() {
-        if (null == movies) return 0;
-        return movies.size();
-    }
-
-    public List<Movie> getMovieData()
+    public int getItemCount()
     {
-        return movies;
-    }
-
-    public void setMovieData(Movie[] movieData)
-    {
-        movies = new ArrayList<Movie>();
-
-        if(movieData != null)
-        {
-            for (Movie m : movieData)
-            {
-                movies.add(m);
-            }
-        }
-
-        notifyDataSetChanged();
+        if (null == reviews) return 0;
+        return reviews.size();
     }
 }

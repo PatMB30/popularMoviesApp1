@@ -1,40 +1,54 @@
-package com.example.android.moviesapp;
+package com.example.android.moviesapp.data;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+@Entity(tableName = "favoriteMovie")
 public class Movie implements Parcelable
 {
+    //Movie ID needed to retrieve additional information
+    @PrimaryKey(autoGenerate = true)
+    private int movieID;
+    //Basic movie characteristics
     private String movieTitle;
     private String movieThumbnail;
     private String movieOverview;
     private String movieAverage;
     private String movieRelease;
-    //private int imageID;
 
-    public Movie()
+    //designates if movie has been added to favorites
+    private Boolean isFavorite;
+
+    public Movie(int movieID, String movieTitle, String movieThumbnail, String movieOverview,
+                 String movieAverage, String movieRelease, Boolean isFavorite)
     {
-
+        this.movieID = movieID;
+        this.movieTitle = movieTitle;
+        this.movieThumbnail = movieThumbnail;
+        this.movieOverview = movieOverview;
+        this.movieAverage = movieAverage;
+        this.movieRelease = movieRelease;
+        this.isFavorite = isFavorite;
     }
 
-    public Movie(String title, String thumbnail, String overview,
-                 String average, String release)
-    {
-        this.movieTitle = title;
-        this.movieThumbnail = thumbnail;
-        this.movieOverview = overview;
-        this.movieAverage = average;
-        this.movieRelease = release;
-    }
-
+    @Ignore
     public Movie(Parcel in)
     {
+        movieID = in.readInt();
         movieTitle = in.readString();
         movieThumbnail = in.readString();
         movieOverview = in.readString();
         movieAverage = in.readString();
         movieRelease = in.readString();
+        isFavorite = in.readByte() != 0;
     }
+
+    public int getMovieID() { return movieID; }
+
+    public void setMovieID(int ID) { this.movieID = ID; }
 
     public String getMovieTitle()
     {
@@ -86,6 +100,12 @@ public class Movie implements Parcelable
         this.movieRelease = release;
     }
 
+    //public void setMovieReviews(MovieReview mr) { this.movieReview = mr; }
+
+    public Boolean getFavorite() { return isFavorite; }
+
+    public void setFavorite(Boolean favorite) { this.isFavorite = favorite; }
+
     @Override
     public int describeContents()
     {
@@ -97,11 +117,13 @@ public class Movie implements Parcelable
     public void writeToParcel(Parcel dest, int arg1)
     {
         // TODO Auto-generated method stub
+        dest.writeInt(movieID);
         dest.writeString(movieTitle);
         dest.writeString(movieThumbnail);
         dest.writeString(movieOverview);
         dest.writeString(movieAverage);
         dest.writeString(movieRelease);
+        dest.writeByte((byte) (isFavorite ? 1 : 0));
     }
 
     public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>()
@@ -116,5 +138,6 @@ public class Movie implements Parcelable
             return new Movie[size];
         }
     };
+
 
 }

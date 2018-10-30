@@ -32,11 +32,23 @@ public final class NetworkUtils
     private static final String STATIC_MOVIE_URL =
             "https://api.themoviedb.org/3/movie/";
 
+    private static final String STATIC_YOUTUBE_URL = "https://www.youtube.com/watch?v=";
+
     final static String API_KEY_PARAM = "api_key";
 
     final static String POPULARITY = "popular";
 
     final static String RATING = "top_rated";
+
+    final static String REVIEWS = "/reviews";
+
+    final static String TRAILERS = "/videos";
+
+    static int REVIEW_MOVIE_ID = 0;
+
+    static int TRAILER_MOVIE_ID = 0;
+
+    //private static final String BASE_URL_REVIEWS = STATIC_MOVIE_URL + REVIEW_MOVIE_ID + REVIEWS;
 
     private static final String BASE_URL_POPULAR = STATIC_MOVIE_URL + POPULARITY;
 
@@ -45,7 +57,7 @@ public final class NetworkUtils
     /* The format we want our API to return */
     private static final String format = "json";
 
-    public static URL buildUrl(String key, String filter)
+    public static URL buildUrl(String key, String filter, int selectedMovieID)
     {
         URL url = null;
 
@@ -69,6 +81,42 @@ public final class NetworkUtils
         else if(filter == "top_rated")
         {
             Uri builtUri = Uri.parse(BASE_URL_RATING).buildUpon()
+                    .appendQueryParameter(API_KEY_PARAM, key)
+                    .build();
+
+            try
+            {
+                url = new URL(builtUri.toString());
+            }
+            catch (MalformedURLException e)
+            {
+                e.printStackTrace();
+            }
+
+            Log.v(TAG, "Built URI " + url);
+        }
+        else if(filter == "review")
+        {
+            REVIEW_MOVIE_ID = selectedMovieID;
+            Uri builtUri = Uri.parse(STATIC_MOVIE_URL + REVIEW_MOVIE_ID + REVIEWS).buildUpon()
+                    .appendQueryParameter(API_KEY_PARAM, key)
+                    .build();
+
+            try
+            {
+                url = new URL(builtUri.toString());
+            }
+            catch (MalformedURLException e)
+            {
+                e.printStackTrace();
+            }
+
+            Log.v(TAG, "Built URI " + url);
+        }
+        else if(filter == "videos")
+        {
+            TRAILER_MOVIE_ID = selectedMovieID;
+            Uri builtUri = Uri.parse(STATIC_MOVIE_URL + TRAILER_MOVIE_ID + TRAILERS).buildUpon()
                     .appendQueryParameter(API_KEY_PARAM, key)
                     .build();
 

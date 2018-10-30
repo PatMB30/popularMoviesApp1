@@ -19,21 +19,29 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 
+import com.example.android.moviesapp.data.Movie;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
+import java.util.List;
 
 public final class OpenMovieJsonUtils
 {
+    //parsed list of movie objects
+    private List<Movie> movies;
+
     @TargetApi(Build.VERSION_CODES.KITKAT)
-    public static String[] getSimpleMovieStringsFromJson(Context context, String movieJsonStr)
+    public static String getSimpleMovieStringsFromJson(Context context, String movieJsonStr)
             throws JSONException
     {
         /* String designating movie results from movieDB */
         final String MOV_RESULTS = "results";
 
+        //Movie ID
+        final String MOV_ID = "id";
         //Movie Title
         final String MOV_TITLE = "title";
         //Movie Thumbnail Image ID
@@ -66,33 +74,7 @@ public final class OpenMovieJsonUtils
             }
         }
 
-        JSONArray movieArray = movieJson.getJSONArray(MOV_RESULTS);
-
-        parsedMovieData = new String[movieArray.length()];
-
-        for (int i = 0; i < movieArray.length(); i++)
-        {
-            /* Get the JSON object representing one movie */
-            JSONObject movieObject = movieArray.getJSONObject(i);
-
-            //declare the variables we want to use to parse our movie object
-            String movieTitle;
-            String movieThumbnail;
-            String movieOverview;
-            String movieAverage;
-            String movieRelease;
-
-            movieTitle = movieObject.getString(MOV_TITLE);
-            movieThumbnail = movieObject.getString(MOV_THUMB);
-            movieOverview = movieObject.getString(MOV_PLOT);
-            movieAverage = movieObject.getString(MOV_RAT);
-            movieRelease = movieObject.getString(MOV_DATE);
-
-            parsedMovieData[i] = "MOV_TITLE" + movieTitle + "MOV_THUMBNAIL" + movieThumbnail +
-                    "MOV_OVERVIEW" + movieOverview + "MOV_AVERAGE" + movieAverage +
-                    "MOV_RELEASE" + movieRelease;
-        }
-
-        return parsedMovieData;
+        return movieJsonStr;
     }
+
 }

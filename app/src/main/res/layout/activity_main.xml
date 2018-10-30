@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/main_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="56dp"
+        android:background="@color/colorPrimaryDark"
         />
 
     <TextView
@@ -24,5 +28,17 @@
         android:layout_width="42dp"
         android:layout_gravity="center"
         android:visibility="invisible" />
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/main_nav"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="@color/bottom_menu_colors"
+        app:itemTextColor="@color/bottom_menu_colors"
+        app:menu="@menu/movie">
+
+    </android.support.design.widget.BottomNavigationView>
 
 </FrameLayout>
